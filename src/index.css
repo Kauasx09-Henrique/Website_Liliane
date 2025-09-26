@@ -1,0 +1,63 @@
+/* src/index.css */
+
+/* Definição das variáveis de cor (sua paleta) */
+:root {
+  --primary-color: #C9A948;
+  --primary-dark: #b5983a;
+  --primary-light: #e8d9a5;
+  --secondary-color: #2c5530;
+  --text-color: #373737;
+  --text-light: #666;
+  --text-lighter: #888;
+  --background-color: #FFFFFD;
+  --section-background: #f8f9fa;
+  --white: #ffffff;
+  --gray-light: #e9ecef;
+  --overlay-dark: rgba(45, 45, 45, 0.85);
+  --overlay-light: rgba(45, 45, 45, 0.7);
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
+  --shadow-soft: 0 5px 15px rgba(0,0,0,0.05);
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: all 0.3s ease;
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+}
+
+/* Reset básico e estilos globais */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth; /* Para rolagem suave ao clicar nos links do menu */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: var(--secondary-color);
+  line-height: 1.2;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+section {
+    padding: 6rem 5%;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
