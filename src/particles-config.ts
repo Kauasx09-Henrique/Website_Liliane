@@ -40,10 +40,10 @@ export const options: ISourceOptions = {
       direction: "none",
       outModes: { default: "bounce" },
       attract: { enable: true, rotate: { x: 600, y: 1200 } },
-      trail: { enable: true, length: 5, fillColor: "#0c1f14" }
+      trail: { enable: true, length: 5 }
     },
 
-    number: { value: 60, density: { enable: true, area: 800 } },
+    number: { value: 60, density: { enable: true, width: 800 } },
 
     opacity: {
       value: { min: 0.2, max: 0.8 },

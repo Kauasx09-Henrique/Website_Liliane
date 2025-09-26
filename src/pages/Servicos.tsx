@@ -95,7 +95,7 @@ const Servicos: React.FC = () => {
 
         {/* Grid de serviços com animações avançadas */}
         <div className="servicos-grid">
-          {servicos.map((servico, index) => (
+          {servicos.map((servico) => (
             <Fade
               key={servico.id}
               direction="up"
