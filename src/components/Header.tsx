@@ -77,7 +77,7 @@ const Header: React.FC = () => {
           className="logo"
           onClick={(e) => handleNavClick(e, 'home')}
         >
-          <img src="../public/logo.lc.png" alt="Logo Liliane Castro" className="logo-img" />
+          <img src="\public\logo_lc.png" alt="Logo Liliane Castro" className="logo-img" />
           <span>Liliane Castro</span>
         </a>
 
