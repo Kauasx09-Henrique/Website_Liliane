@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Header.css';
-
+import logo from '../../public/logo_lc.png';
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
           className="logo"
           onClick={(e) => handleNavClick(e, 'home')}
         >
-          <img src="../public/logo_lc.png" alt="Logo" className="logo-img" />
+          <img src={logo} alt="Logo" className="logo-img" />
           <span>Liliane Castro</span>
         </a>
 
