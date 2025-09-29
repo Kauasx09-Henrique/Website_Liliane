@@ -69,7 +69,6 @@ const Header: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
