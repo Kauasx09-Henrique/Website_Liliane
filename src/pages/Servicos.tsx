@@ -56,19 +56,14 @@ const Servicos: React.FC = () => {
     }
   ];
 
-
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-
+    const handleMouseMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <section id="servicos" className="servicos-section" ref={sectionRef}>
-      {/* Efeito de partículas de fundo */}
       <div className="background-particles">
         {[...Array(15)].map((_, i) => (
           <div key={i} className="particle" style={{
@@ -80,7 +75,6 @@ const Servicos: React.FC = () => {
       </div>
 
       <div className="container">
-        {/* Header com efeitos especiais */}
         <div className="servicos-header">
           <Fade direction="down" triggerOnce cascade damping={0.3}>
             <h2 className="section-title">
@@ -93,7 +87,6 @@ const Servicos: React.FC = () => {
           </Fade>
         </div>
 
-        {/* Grid de serviços com animações avançadas */}
         <div className="servicos-grid">
           {servicos.map((servico) => (
             <Fade
@@ -108,14 +101,9 @@ const Servicos: React.FC = () => {
                 onMouseEnter={() => setServicoAtivo(servico.id)}
                 onMouseLeave={() => setServicoAtivo(null)}
                 onClick={() => setServicoAtivo(servicoAtivo === servico.id ? null : servico.id)}
-                style={{
-                  '--card-color': servico.cor,
-                } as React.CSSProperties}
+                style={{ '--card-color': servico.cor } as React.CSSProperties}
               >
-                {/* Efeito de brilho no hover */}
                 <div className="card-glow"></div>
-
-                {/* Header do card */}
                 <div className="card-header">
                   <div className="icon-container">
                     <span className="servico-icon">{servico.icone}</span>
@@ -126,27 +114,17 @@ const Servicos: React.FC = () => {
                   </Flip>
                 </div>
 
-                {/* Conteúdo principal */}
                 <div className="card-content">
                   <p className="servico-descricao">{servico.descricao}</p>
-
-                  {/* Lista de características */}
                   <div className="caracteristicas-list">
                     {servico.caracteristicas.map((caracteristica, idx) => (
-                      <Zoom
-                        key={idx}
-                        triggerOnce
-                        delay={servico.delay + 300 + idx * 100}
-                      >
-                        <span className="caracteristica-tag">
-                          ✓ {caracteristica}
-                        </span>
+                      <Zoom key={idx} triggerOnce delay={servico.delay + 300 + idx * 100}>
+                        <span className="caracteristica-tag">✓ {caracteristica}</span>
                       </Zoom>
                     ))}
                   </div>
                 </div>
 
-                {/* Footer do card */}
                 <div className="card-footer">
                   <button className="saiba-mais-btn">
                     <span>Saiba Mais</span>
@@ -154,23 +132,16 @@ const Servicos: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Efeito de expansão */}
                 <div className="card-expand"></div>
               </div>
             </Fade>
           ))}
         </div>
-
       </div>
 
-      {/* Efeito de cursor personalizado */}
       <div
         className="custom-cursor"
-        style={{
-          left: mousePos.x - 15,
-          top: mousePos.y - 15,
-          opacity: servicoAtivo ? 0.8 : 0
-        }}
+        style={{ left: mousePos.x - 15, top: mousePos.y - 15, opacity: servicoAtivo ? 0.8 : 0 }}
       />
     </section>
   );
