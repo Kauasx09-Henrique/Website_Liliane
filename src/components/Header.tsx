@@ -81,7 +81,7 @@ const Header: React.FC = () => {
           <span>Liliane Castro</span>
         </a>
 
-        {/* Menu Mobile Toggle */}
+
         <div
           className={`menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
