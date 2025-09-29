@@ -38,7 +38,7 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  // Efeito de ripple
+
   const createRipple = (event: React.MouseEvent) => {
     const button = event.currentTarget;
     const circle = document.createElement('span');
