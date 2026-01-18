@@ -36,7 +36,8 @@ const Home: React.FC = memo(() => {
     'Especialista em Aposentadoria',
     'Especialista em Auxílio-doença',
     'Especialista em Pensão por morte',
-    'Seus direitos garantidos com excelência'
+    'Seus direitos garantidos com excelência',
+    ''
   ];
 
   return (

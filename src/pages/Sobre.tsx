@@ -26,7 +26,6 @@ const Sobre: React.FC = () => {
 
   return (
     <section id="sobre" className="sobre-section">
-      {/* Efeito de partículas no cursor */}
       <div
         className="cursor-glow"
         style={{
