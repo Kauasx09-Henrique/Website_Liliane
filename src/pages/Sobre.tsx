@@ -22,7 +22,7 @@ const Sobre: React.FC = () => {
                 {/* Imagem Principal */}
                 <div className="main-image-frame">
                    <img 
-                    src="../public/Foto_Sobre_Liliane.png" 
+                    src="../../public/Liliane.png" 
                     alt="Liliane Castro" 
                     className="main-image"
                   />
