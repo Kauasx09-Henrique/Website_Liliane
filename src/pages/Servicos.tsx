@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Fade, Zoom, Flip } from 'react-awesome-reveal';
 import './Style/Servicos.css';
 
@@ -7,7 +7,6 @@ interface Servico {
   titulo: string;
   descricao: string;
   icone: string;
-  cor: string;
   caracteristicas: string[];
   delay: number;
 }
@@ -15,43 +14,31 @@ interface Servico {
 const Servicos: React.FC = () => {
   const [servicoAtivo, setServicoAtivo] = useState<number | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const sectionRef = useRef<HTMLElement>(null);
 
   const servicos: Servico[] = [
+    
     {
       id: 1,
-      titulo: "Aposentadoria por Tempo de Contribuição",
-      descricao: "Auxiliamos você a calcular o tempo de contribuição e garantir sua aposentadoria no prazo correto.",
-      icone: "⏳",
-      cor: "var(--secondary-color)",
-      caracteristicas: ["Cálculo preciso", "Documentação completa", "Simulações personalizadas", "Acompanhamento jurídico"],
-      delay: 200
-    },
-    {
-      id: 2,
       titulo: "Aposentadoria por Idade",
-      descricao: "Orientação completa sobre requisitos, regras e procedimentos para obter aposentadoria por idade.",
+      descricao: "Orientação passo a passo e requerimento administrativo para quem atingiu a idade mínima.",
       icone: "🎂",
-      cor: "var(--secondary-color)",
-      caracteristicas: ["Análise de elegibilidade", "Planejamento financeiro", "Atualização de regras", "Suporte na aplicação"],
+      caracteristicas: ["Análise de carência", "Documentação Rural", "Tempo de contribuição", "Pedido no INSS"],
       delay: 400
     },
     {
-      id: 3,
+      id: 2,
       titulo: "Benefícios por Incapacidade",
-      descricao: "Assistência na solicitação de auxílios-doença e aposentadoria por invalidez, com acompanhamento completo.",
+      descricao: "Assessoria para Auxílio-Doença e Aposentadoria por Invalidez (Incapacidade Permanente).",
       icone: "🩺",
-      cor: "var(--secondary-color)",
-      caracteristicas: ["Avaliação médica", "Documentação completa", "Recursos administrativos", "Suporte contínuo"],
+      caracteristicas: ["Análise de Laudos", "Agendamento de Perícia", "Prorrogação de benefício", "Acerto pós-perícia"],
       delay: 600
     },
     {
-      id: 4,
-      titulo: "Revisão e Planejamento Previdenciário",
-      descricao: "Revisamos seu histórico e ajudamos a maximizar benefícios, evitando perdas ou atrasos.",
-      icone: "📊",
-      cor: "var(--secondary-color)",
-      caracteristicas: ["Revisão de cálculos", "Planejamento estratégico", "Identificação de pendências", "Orientação personalizada"],
+      id: 3,
+      titulo: "Revisão de Benefícios",
+      descricao: "Verificação minuciosa do seu benefício atual para encontrar erros de cálculo do INSS.",
+      icone: "🔍",
+      caracteristicas: ["Revisão da Vida Toda", "Erro de cálculo", "Inclusão de tempo", "Aumento de renda"],
       delay: 800
     }
   ];
@@ -63,7 +50,7 @@ const Servicos: React.FC = () => {
   }, []);
 
   return (
-    <section id="servicos" className="servicos-section" ref={sectionRef}>
+    <section id="servicos" className="servicos-section">
       <div className="background-particles">
         {[...Array(15)].map((_, i) => (
           <div key={i} className="particle" style={{
@@ -78,11 +65,11 @@ const Servicos: React.FC = () => {
         <div className="servicos-header">
           <Fade direction="down" triggerOnce cascade damping={0.3}>
             <h2 className="section-title">
-              <span className="title-text">Serviços Exclusivos</span>
+              <span className="title-text">Serviços Especializados</span>
               <span className="title-underline"></span>
             </h2>
             <p className="section-subtitle">
-              Soluções completas e personalizadas para impulsionar seu negócio digital
+              Soluções completas e personalizadas para garantir sua tranquilidade e o melhor benefício.
             </p>
           </Fade>
         </div>
@@ -101,9 +88,9 @@ const Servicos: React.FC = () => {
                 onMouseEnter={() => setServicoAtivo(servico.id)}
                 onMouseLeave={() => setServicoAtivo(null)}
                 onClick={() => setServicoAtivo(servicoAtivo === servico.id ? null : servico.id)}
-                style={{ '--card-color': servico.cor } as React.CSSProperties}
               >
                 <div className="card-glow"></div>
+                
                 <div className="card-header">
                   <div className="icon-container">
                     <span className="servico-icon">{servico.icone}</span>
@@ -127,7 +114,7 @@ const Servicos: React.FC = () => {
 
                 <div className="card-footer">
                   <button className="saiba-mais-btn">
-                    <span>Saiba Mais</span>
+                    <span>Solicitar Análise</span>
                     <div className="btn-arrow">→</div>
                   </button>
                 </div>
@@ -141,7 +128,7 @@ const Servicos: React.FC = () => {
 
       <div
         className="custom-cursor"
-        style={{ left: mousePos.x - 15, top: mousePos.y - 15, opacity: servicoAtivo ? 0.8 : 0 }}
+        style={{ left: mousePos.x, top: mousePos.y, opacity: servicoAtivo ? 1 : 0 }}
       />
     </section>
   );

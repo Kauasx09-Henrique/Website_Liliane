@@ -14,7 +14,7 @@ const Contato: React.FC = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const formRef = useRef<HTMLFormElement>(null);
 
-  const telefoneWhatsApp = '+556184505988';
+  const telefoneWhatsApp = '556184505988'; // Apenas números
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -26,8 +26,7 @@ const Contato: React.FC = () => {
 
   const formatarMensagemWhatsApp = () => {
     const { nome, email, telefone, assunto, mensagem } = formData;
-
-    return `Olá! Gostaria de entrar em contato através do seu site:
+    return `Olá! Gostaria de entrar em contato através do site:
 
 *Nome:* ${nome}
 *E-mail:* ${email}
@@ -35,52 +34,43 @@ const Contato: React.FC = () => {
 *Assunto:* ${assunto}
 
 *Mensagem:*
-${mensagem}
-
-Aguardo seu retorno!`;
+${mensagem}`;
   };
 
   const enviarParaWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simular processamento
     setTimeout(() => {
       const mensagemFormatada = encodeURIComponent(formatarMensagemWhatsApp());
-      const urlWhatsApp = `https://wa.me/${telefoneWhatsApp.replace(/\D/g, '')}?text=${mensagemFormatada}`;
+      // Lógica para abrir app ou web dependendo do dispositivo
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
+      const urlWhatsApp = `${baseUrl}?phone=${telefoneWhatsApp}&text=${mensagemFormatada}`;
 
-      // Abrir WhatsApp em nova aba
       window.open(urlWhatsApp, '_blank');
 
       setIsSubmitting(false);
       setSubmitStatus('success');
 
-      // Resetar form após sucesso
       setTimeout(() => {
-        setFormData({
-          nome: '',
-          email: '',
-          telefone: '',
-          assunto: '',
-          mensagem: ''
-        });
+        setFormData({ nome: '', email: '', telefone: '', assunto: '', mensagem: '' });
         setSubmitStatus('idle');
       }, 3000);
-
-    }, 1000);
+    }, 1500);
   };
 
   const assuntos = [
-    'Consulta Jurídica',
-    'Orçamento de Serviços',
-    'Dúvidas Gerais',
-    'Agendamento de Reunião',
-    'Outros'
+    'Planejamento Previdenciário',
+    'Aposentadoria por Idade',
+    'Auxílio Doença/Invalidez',
+    'Revisão de Benefício',
+    'Outros Assuntos'
   ];
 
   return (
     <section id="contato" className="contato-section">
-      {/* Elementos decorativos de fundo */}
+      {/* Fundo Decorativo */}
       <div className="contact-background">
         <div className="bg-shape shape-1"></div>
         <div className="bg-shape shape-2"></div>
@@ -88,152 +78,182 @@ Aguardo seu retorno!`;
       </div>
 
       <div className="container">
-        {/* Header da seção */}
         <Fade direction="down" triggerOnce>
           <div className="contact-header">
-            <h2 className="section-title">
-              Vamos Conversar
-            </h2>
+            <h2 className="section-title">Vamos Conversar?</h2>
             <p className="section-subtitle">
-              Entre em contato diretamente pelo WhatsApp
+              Tire suas dúvidas e garanta o melhor benefício. Atendimento ágil pelo WhatsApp.
             </p>
           </div>
         </Fade>
 
         <div className="contact-content">
-          {/* Informações de contato */}
-          <Fade direction="left" triggerOnce delay={200}>
+          {/* Coluna da Esquerda: Informações */}
+          <Fade direction="left" triggerOnce delay={200} className="info-wrapper">
             <div className="contact-info">
+
               <div className="info-card">
+                <div className="card-highlight"></div>
                 <div className="info-icon">📱</div>
                 <h3>WhatsApp Direto</h3>
-                <p>Envie sua mensagem instantaneamente</p>
+                <p>Clique abaixo para iniciar uma conversa agora mesmo.</p>
                 <a
-                  href={`https://wa.me/${telefoneWhatsApp.replace(/\D/g, '')}`}
+                  href={`https://wa.me/${telefoneWhatsApp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="whatsapp-direct-link"
                 >
-                  <span>Conversar Agora</span>
+                  <span>Iniciar Conversa</span>
                   <div className="link-arrow">→</div>
                 </a>
               </div>
 
-              <div className="info-features">
-                <div className="feature-item">
-                  <span className="feature-check">✓</span>
-                  <span>Resposta rápida</span>
+              <div className="info-details">
+                <div className="detail-item">
+                  <span className="detail-icon">📍</span>
+                  <div>
+                    <strong>Localização</strong>
+                    <p>Brasília - DF (Atendimento em todo Brasil Online)</p>
+                  </div>
                 </div>
-                <div className="feature-item">
-                  <span className="feature-check">✓</span>
-                  <span>Atendimento personalizado</span>
+                <div className="detail-item">
+                  <span className="detail-icon">📧</span>
+                  <div>
+                    <strong>E-mail</strong>
+                    <p>contato@lilianecastro.adv.br</p>
+                  </div>
                 </div>
-                <div className="feature-item">
-                  <span className="feature-check">✓</span>
-                  <span>Sem complicações</span>
+                <div className="detail-item">
+                  <span className="detail-icon">⏰</span>
+                  <div>
+                    <strong>Horário</strong>
+                    <p>Seg a Sex: 09h às 18h</p>
+                  </div>
                 </div>
               </div>
+
+              <div className="info-features">
+                <div className="feature-item">
+                  <span className="feature-check">✓</span> Análise Sigilosa
+                </div>
+                <div className="feature-item">
+                  <span className="feature-check">✓</span> Atendimento Humanizado
+                </div>
+                <div className="feature-item">
+                  <span className="feature-check">✓</span> Especialista no INSS
+                </div>
+              </div>
+
             </div>
           </Fade>
 
-          {/* Formulário */}
-          <Fade direction="right" triggerOnce delay={400}>
+          {/* Coluna da Direita: Formulário */}
+          <Fade direction="right" triggerOnce delay={400} className="form-wrapper">
             <form
               ref={formRef}
               className="contact-form"
               onSubmit={enviarParaWhatsApp}
             >
-              <div className="form-header">
-                <h3>Preencha o Formulário</h3>
-                <p>Seus dados serão enviados diretamente para o WhatsApp</p>
+              <div className="form-header-content">
+                <h3>Envie uma mensagem</h3>
+                <p>Preencha os dados para agilizar seu atendimento</p>
               </div>
 
               <div className="form-grid">
                 <div className="input-group">
-                  <label htmlFor="nome">Nome Completo *</label>
-                  <input
-                    type="text"
-                    id="nome"
-                    name="nome"
-                    value={formData.nome}
-                    onChange={handleInputChange}
-                    placeholder="Seu nome completo"
-                    required
-                    className="form-input"
-                  />
-                  <div className="input-icon">👤</div>
+                  <label htmlFor="nome">Nome Completo</label>
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      id="nome"
+                      name="nome"
+                      value={formData.nome}
+                      onChange={handleInputChange}
+                      placeholder="Seu nome"
+                      required
+                      className="form-input"
+                    />
+                    <span className="input-icon">👤</span>
+                  </div>
                 </div>
 
                 <div className="input-group">
-                  <label htmlFor="email">E-mail *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="seu@email.com"
-                    required
-                    className="form-input"
-                  />
-                  <div className="input-icon">📧</div>
-                </div>
-
-                <div className="input-group">
-                  <label htmlFor="telefone">Telefone/WhatsApp *</label>
-                  <input
-                    type="tel"
-                    id="telefone"
-                    name="telefone"
-                    value={formData.telefone}
-                    onChange={handleInputChange}
-                    placeholder="(61) 99999-9999"
-                    required
-                    className="form-input"
-                  />
-                  <div className="input-icon">📞</div>
-                </div>
-
-                <div className="input-group">
-                  <label htmlFor="assunto">Assunto *</label>
-                  <select
-                    id="assunto"
-                    name="assunto"
-                    value={formData.assunto}
-                    onChange={handleInputChange}
-                    required
-                    className="form-select"
-                  >
-                    <option value="">Selecione um assunto</option>
-                    {assuntos.map((assunto, index) => (
-                      <option key={index} value={assunto}>{assunto}</option>
-                    ))}
-                  </select>
-                  <div className="input-icon">📋</div>
+                  <label htmlFor="telefone">Telefone / WhatsApp</label>
+                  <div className="input-wrapper">
+                    <input
+                      type="tel"
+                      id="telefone"
+                      name="telefone"
+                      value={formData.telefone}
+                      onChange={handleInputChange}
+                      placeholder="(DD) 99999-9999"
+                      required
+                      className="form-input"
+                    />
+                    <span className="input-icon">📞</span>
+                  </div>
                 </div>
 
                 <div className="input-group full-width">
-                  <label htmlFor="mensagem">Mensagem *</label>
-                  <textarea
-                    id="mensagem"
-                    name="mensagem"
-                    value={formData.mensagem}
-                    onChange={handleInputChange}
-                    placeholder="Descreva sua necessidade ou dúvida..."
-                    rows={5}
-                    required
-                    className="form-textarea"
-                  ></textarea>
-                  <div className="input-icon">💭</div>
+                  <label htmlFor="email">E-mail</label>
+                  <div className="input-wrapper">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="seu@email.com"
+                      required
+                      className="form-input"
+                    />
+                    <span className="input-icon">📧</span>
+                  </div>
+                </div>
+
+                <div className="input-group full-width">
+                  <label htmlFor="assunto">Assunto</label>
+                  <div className="input-wrapper">
+                    <select
+                      id="assunto"
+                      name="assunto"
+                      value={formData.assunto}
+                      onChange={handleInputChange}
+                      required
+                      className="form-select"
+                    >
+                      <option value="">Selecione o motivo do contato</option>
+                      {assuntos.map((assunto, index) => (
+                        <option key={index} value={assunto}>{assunto}</option>
+                      ))}
+                    </select>
+                    <span className="input-icon">📋</span>
+                  </div>
+                </div>
+
+                <div className="input-group full-width">
+                  <label htmlFor="mensagem">Mensagem</label>
+                  <div className="input-wrapper">
+                    <textarea
+                      id="mensagem"
+                      name="mensagem"
+                      value={formData.mensagem}
+                      onChange={handleInputChange}
+                      placeholder="Olá, gostaria de saber mais sobre..."
+                      rows={4}
+                      required
+                      className="form-textarea"
+                    ></textarea>
+                    <span className="input-icon textarea-icon">💭</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Status de envio */}
               {submitStatus === 'success' && (
                 <Bounce triggerOnce>
                   <div className="submit-success">
                     <span className="success-icon">✅</span>
-                    <span>Formulário enviado! Redirecionando para o WhatsApp...</span>
+                    <span>Mensagem pronta! Abrindo WhatsApp...</span>
                   </div>
                 </Bounce>
               )}
@@ -246,55 +266,51 @@ Aguardo seu retorno!`;
                 {isSubmitting ? (
                   <>
                     <div className="loading-spinner"></div>
-                    <span>Enviando...</span>
+                    <span>Processando...</span>
                   </>
                 ) : (
                   <>
-                    <span>Enviar para WhatsApp</span>
-                    <div className="whatsapp-submit-icon">💬</div>
+                    <span>Enviar Mensagem</span>
+                    <div className="whatsapp-submit-icon">➤</div>
                   </>
                 )}
               </button>
 
               <div className="form-footer">
-                <p className="privacy-notice">
-                  🔒 Seus dados estão seguros e serão usados apenas para este contato
-                </p>
+                <p>🔒 Seus dados estão 100% seguros.</p>
               </div>
             </form>
           </Fade>
         </div>
 
-        {/* =============================================== */}
-        {/* INÍCIO DA SEÇÃO DO MAPA                         */}
-        {/* =============================================== */}
+        {/* Seção do Mapa */}
+        {/* Seção do Mapa */}
         <Fade direction="up" triggerOnce delay={300}>
           <div className="map-section">
-            <h3 className="map-title">Nossa Localização</h3>
-            <div className="map-container" style={{ width: '100%', height: '0', paddingBottom: '75%', position: 'relative' }}>
+            <h3 className="map-title">Onde Estamos</h3>
+            <div className="map-wrapper">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d479.90995510916963!2d-48.134097117003726!3d-15.789202194416198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sIgreja%20Adventista%20do%20S%C3%A9timo%20Dia%2CBras%C3%ADlia%2CBrasilia%2C%20BRASIL!5e0!3m2!1spt-BR!2sbr!4v1758899025965!5m2!1spt-BR!2sbr"
-                style={{ border: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d239.95453785211762!2d-48.1338740724299!3d-15.78957348730076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1768867656166!5m2!1spt-BR!2sbr"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
                 allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                title="Localização do Escritório"
               ></iframe>
             </div>
           </div>
         </Fade>
 
-        {/* =============================================== */}
-        {/* FIM DA SEÇÃO DO MAPA                            */}
-        {/* =============================================== */}
-
-
-        {/* Botão flutuante do WhatsApp */}
+        {/* Botão Flutuante */}
         <Fade triggerOnce delay={600}>
           <a
-            href={`https://wa.me/${telefoneWhatsApp.replace(/\D/g, '')}`}
+            href={`https://wa.me/${telefoneWhatsApp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-float"
+            aria-label="Conversar no WhatsApp"
           >
             <div className="float-icon">
               <span>💬</span>

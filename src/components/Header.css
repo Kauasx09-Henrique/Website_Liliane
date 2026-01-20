@@ -1,351 +1,269 @@
-.header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow:
-    0 4px 30px rgba(0, 0, 0, 0.1),
-    0 1px 0 rgba(255, 255, 255, 0.8);
-  padding: 1rem 5%;
-  z-index: 1000;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+/* =========================================
+   HEADER STYLES
+   ========================================= */
+
+/* Variáveis (Caso não estejam globais) */
+:root {
+  --primary-color: #c5a059;
+  --primary-dark: #1a1a1a;
+  --text-dark: #111111;
+  --white: #ffffff;
+  --header-height: 80px;
 }
 
-/* Efeito de scroll reduzido */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background: transparent; /* Inicia transparente */
+  transition: all 0.4s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+/* Estado Scrolled (Fundo Branco + Sombra) */
 .header.scrolled {
-  padding: 0.7rem 5%;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(30px);
-  box-shadow:
-    0 8px 40px rgba(0, 0, 0, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px); /* Efeito vidro */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-/* Logo com animação */
-.logo {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--secondary-color);
-  text-decoration: none;
-  position: relative;
-  padding: 0.5rem 0;
-  transition: all 0.3s ease;
-  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: logoGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes logoGlow {
-  0% {
-    text-shadow: 0 0 10px rgba(201, 169, 72, 0.3);
-  }
-
-  100% {
-    text-shadow:
-      0 0 20px rgba(201, 169, 72, 0.6),
-      0 0 30px rgba(201, 169, 72, 0.4);
-  }
-}
-
-.logo::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-  transition: width 0.4s ease;
-  border-radius: 2px;
-}
-
-.logo:hover::before {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.logo:hover {
-  transform: translateY(-2px);
+/* --- LOGO --- */
+.logo {
+  text-decoration: none;
+  z-index: 1001; /* Fica acima do menu mobile */
 }
 
-/* Navegação */
-.header nav ul {
+.logo-wrapper {
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-name {
+  font-family: 'Playfair Display', serif; /* Fonte elegante se tiver */
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white); /* Começa branco no topo */
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.logo-desc {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+/* Cor do logo quando rola a página */
+.header.scrolled .logo-name { color: var(--text-dark); }
+.header.scrolled .logo-desc { color: #666; }
+
+/* --- MENU DESKTOP --- */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-list {
+  display: flex;
+  gap: 2rem;
   list-style: none;
-  gap: 2.5rem;
   margin: 0;
   padding: 0;
 }
 
-.header nav li {
-  position: relative;
-}
-
-.header nav a {
+.nav-link {
   text-decoration: none;
-  color: var(--text-light);
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.5rem 0;
+  color: var(--white); /* Branco no topo */
+  font-weight: 500;
+  font-size: 0.95rem;
   position: relative;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
+  transition: color 0.3s;
+  padding: 5px 0;
 }
 
 /* Efeito de underline animado */
-.header nav a::before {
+.nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  bottom: 0;
+  left: 50%;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
   transform: translateX(-50%);
-  border-radius: 2px;
 }
 
-.header nav a:hover {
-  color: var(--secondary-color);
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+}
+
+/* Cores do menu quando rola a página */
+.header.scrolled .nav-link { color: var(--text-dark); }
+.header.scrolled .nav-link:hover,
+.header.scrolled .nav-link.active { color: var(--primary-color); }
+
+
+/* --- BOTÃO CTA (Desktop) --- */
+.header-cta-button {
+  background: var(--primary-color);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3);
+}
+
+.header-cta-button:hover {
+  background: white;
+  color: var(--primary-color);
   transform: translateY(-2px);
 }
 
-.header nav a:hover::before {
-  width: 100%;
+/* CTA Ajuste quando scrolled */
+.header.scrolled .header-cta-button:hover {
+  background: var(--primary-dark);
+  color: white;
 }
 
-/* Efeito de bolinha flutuante */
-.header nav li::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: var(--secondary-color);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.3s ease;
-  opacity: 0;
-}
-
-.header nav li:hover::after {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  animation: floatDot 2s ease-in-out infinite;
-}
-
-@keyframes floatDot {
-
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1) translateY(0);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.2) translateY(-5px);
-  }
-}
-
-/* Indicador de página ativa */
-.header nav a.active {
-  color: var(--secondary-color);
-}
-
-.header nav a.active::before {
-  width: 100%;
-}
-
-/* Menu Mobile (pré-configuração) */
+/* --- MENU MOBILE TOGGLE (Hamburguer) --- */
 .menu-toggle {
-  display: none;
+  display: none; /* Escondido no desktop */
   flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  gap: 4px;
+  z-index: 1002;
+  padding: 0;
 }
 
-.menu-toggle span {
-  width: 25px;
+.bar {
+  width: 100%;
   height: 3px;
-  background: var(--secondary-color);
+  background-color: var(--white);
+  border-radius: 3px;
   transition: all 0.3s ease;
-  border-radius: 2px;
 }
 
-/* Animação de entrada dos itens do menu */
-.header nav ul li {
+.header.scrolled .bar { background-color: var(--text-dark); }
+
+/* Animação do X no menu */
+.menu-toggle.active .bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+  background-color: var(--text-dark); /* Fica escuro quando menu abre */
+}
+.menu-toggle.active .bar:nth-child(2) {
   opacity: 0;
-  transform: translateY(-20px);
-  animation: slideDown 0.6s ease forwards;
+}
+.menu-toggle.active .bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+  background-color: var(--text-dark);
 }
 
-.header nav ul li:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.header nav ul li:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.header nav ul li:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.header nav ul li:nth-child(4) {
-  animation-delay: 0.4s;
-}
-
-@keyframes slideDown {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Efeito de ripple no clique */
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(201, 169, 72, 0.3);
-  transform: scale(0);
-  animation: ripple 0.6s linear;
-  pointer-events: none;
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* Responsividade */
+/* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
-  .header {
-    padding: 1rem;
-  }
-
-  .header.scrolled {
-    padding: 0.7rem 1rem;
-  }
-
   .menu-toggle {
     display: flex;
   }
 
-  .header nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    padding: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Escondido na direita */
+    width: 75%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--white);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    z-index: 1000;
   }
 
-  .header nav.active {
-    transform: translateY(0);
+  .nav-menu.active {
+    right: 0; /* Aparece */
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    color: var(--text-dark); /* No mobile sempre fundo branco */
+    font-size: 1.2rem;
+  }
+
+  .nav-link::after {
+    display: none; /* Remove underline animado no mobile */
+  }
+
+  /* Overlay Escuro quando menu abre */
+  .nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .nav-overlay.active {
     opacity: 1;
     visibility: visible;
   }
-
-  .header nav ul {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .header nav a {
-    font-size: 1.1rem;
-    padding: 0.8rem 0;
-  }
-
-  /* Animação do menu toggle */
-  .menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
-  }
-
-  .menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
-}
-
-@media (max-width: 480px) {
-  .logo {
-    font-size: 1.5rem;
-  }
-
-  .header nav ul {
-    gap: 0.8rem;
-  }
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
- cursor: pointer;
-  text-decoration: none;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--secondary-color);
-  position: relative;
-  padding: 0.5rem 0;
-  transition: all 0.3s ease;
-  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: logoGlow 3s ease-in-out infinite alternate;
-  font-family: "Playfair Display", serif;
-  font-optical-sizing: auto;
-  font-weight: weight;
-  font-style: normal;
-}
-
-.logo-img {
-  height: 50px;
-  width: auto;
-  display: block;
-}
-
-/* Efeito de hover e underline do texto */
-.logo::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-  transition: width 0.4s ease;
-  border-radius: 2px;
-}
-
-.logo:hover::before {
-  width: 100%;
-}
-
-.logo:hover {
-  transform: translateY(-2px);
+  
+  /* Ajuste cores do logo no mobile se o fundo da hero for claro */
+  /* Caso contrário, mantenha como está */
 }

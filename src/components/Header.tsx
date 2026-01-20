@@ -1,136 +1,120 @@
 import React, { useState, useEffect } from 'react';
 import './Header.css';
-import logo from '../../public/logo_lc.png';
+import logo from '../../public/logo_lc.png'; // Verifique se o caminho está correto
+
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  // Efeito de scroll
+  // Altura do header para compensar o scroll (80px)
+  const headerOffset = 80;
+
   useEffect(() => {
     const handleScroll = () => {
+      // Muda a cor do header ao rolar
       setIsScrolled(window.scrollY > 50);
-    };
 
-    // Detectar seção ativa
-    const handleSectionChange = () => {
+      // Lógica para detectar seção ativa
       const sections = ['home', 'sobre', 'servicos', 'contato'];
-      const currentSection = sections.find(section => {
+      
+      for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          // Se o elemento está visível na tela (considerando o offset do header)
+          if (rect.top <= headerOffset + 50 && rect.bottom >= headerOffset) {
+            setActiveSection(section);
+            break; 
+          }
         }
-        return false;
-      });
-
-      if (currentSection) {
-        setActiveSection(currentSection);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('scroll', handleSectionChange);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('scroll', handleSectionChange);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-  const createRipple = (event: React.MouseEvent) => {
-    const button = event.currentTarget;
-    const circle = document.createElement('span');
-    const diameter = Math.max(button.clientWidth, button.clientHeight);
-    const radius = diameter / 2;
-
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-    circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
-    circle.classList.add('ripple');
-
-    const ripple = button.getElementsByClassName('ripple')[0];
-    if (ripple) {
-      ripple.remove();
-    }
-
-    button.appendChild(circle);
-  };
-
-  const handleNavClick = (event: React.MouseEvent, sectionId: string) => {
-    createRipple(event);
-    setActiveSection(sectionId);
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault(); // Evita o # na URL
     setIsMobileMenuOpen(false);
+    setActiveSection(sectionId);
 
-    // Scroll suave
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
+
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
-        <a
-          href="#home"
-          className="logo"
+        
+        {/* LOGO */}
+        <a 
+          href="#home" 
+          className="logo" 
           onClick={(e) => handleNavClick(e, 'home')}
         >
-          <img src={logo} alt="Logo" className="logo-img" />
-          <span>Liliane Castro</span>
+          {/* Se a imagem não carregar, mostra o texto. Se carregar, mostra imagem e texto */}
+          <div className="logo-wrapper">
+             <img src={logo} alt="LC" className="logo-img" /> 
+             <div className="logo-text">
+                <span className="logo-name">Liliane Castro</span>
+                <span className="logo-desc">Consultoria Previdenciária</span>
+             </div>
+          </div>
         </a>
 
-
-        <div
-          className={`menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
+        {/* BOTÃO HAMBURGUER (MOBILE) */}
+        <button 
+          className={`menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Abrir menu"
         >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
 
-        <nav className={isMobileMenuOpen ? 'active' : ''}>
-          <ul>
-            <li>
-              <a
-                href="#home"
-                className={activeSection === 'home' ? 'active' : ''}
-                onClick={(e) => handleNavClick(e, 'home')}
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#sobre"
-                className={activeSection === 'sobre' ? 'active' : ''}
-                onClick={(e) => handleNavClick(e, 'sobre')}
-              >
-                Sobre Mim
-              </a>
-            </li>
-            <li>
-              <a
-                href="#servicos"
-                className={activeSection === 'servicos' ? 'active' : ''}
-                onClick={(e) => handleNavClick(e, 'servicos')}
-              >
-                Serviços
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contato"
-                className={activeSection === 'contato' ? 'active' : ''}
-                onClick={(e) => handleNavClick(e, 'contato')}
-              >
-                Contato
-              </a>
-            </li>
+        {/* NAVEGAÇÃO */}
+        <nav className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <ul className="nav-list">
+            {['home', 'sobre', 'servicos', 'contato'].map((item) => (
+              <li key={item} className="nav-item">
+                <a
+                  href={`#${item}`}
+                  className={`nav-link ${activeSection === item ? 'active' : ''}`}
+                  onClick={(e) => handleNavClick(e, item)}
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)} {/* Capitaliza primeira letra */}
+                </a>
+              </li>
+            ))}
           </ul>
+          
+          {/* Botão extra no mobile ou desktop se quiser */}
+          <a 
+            href="https://wa.me/556184505988" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="header-cta-button"
+          >
+            Fale Comigo
+          </a>
         </nav>
+
+        {/* Overlay para fechar menu ao clicar fora (Mobile) */}
+        <div 
+          className={`nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
       </div>
     </header>
   );
